@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "neonsec config",
+  "type": "object",
+  "properties": {
+    "input": {"type":"string"},
+    "input_format": {"type":"string","enum":["csv","ndjson"]},
+    "format": {"type":"string","enum":["text","json","ndjson"]},
+    "output": {"type":"string"},
+    "window": {"type":"integer","minimum":1},
+    "max_records_per_key": {"type":"integer","minimum":1},
+    "metrics": {"type":"string"},
+    "sarif": {"type":"string"},
+    "threads": {"type":"integer","minimum":1},
+    "max_records": {"type":"integer","minimum":1},
+    "dedupe": {"type":"boolean"},
+    "sample": {"type":"integer","minimum":1},
+    "plugins": {"type":"array","items":{"type":"string"}},
+    "thresholds": {
+      "type":"object",
+      "properties": {
+        "portscan_unique_ports":{"type":"integer","minimum":1},
+        "bruteforce_failures":{"type":"integer","minimum":1},
+        "ddos_events":{"type":"integer","minimum":1},
+        "ddos_unique_sources":{"type":"integer","minimum":1},
+        "anomaly_z":{"type":"number","minimum":0}
+      }
+    }
+  }
+}

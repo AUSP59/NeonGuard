@@ -1,0 +1,8 @@
+# Example operations configuration
+metrics: ":9464"
+tee: "findings.ndjson"
+tee_rotate_size: 200
+tee_rotate_keep: 5
+hash_output: true
+prolog: true
+summary: true

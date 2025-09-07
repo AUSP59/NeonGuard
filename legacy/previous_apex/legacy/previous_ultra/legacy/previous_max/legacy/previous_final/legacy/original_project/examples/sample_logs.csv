@@ -1,0 +1,3 @@
+ts,src_ip,dst_ip,dst_port,protocol,action,status,bytes,username
+1725499200,10.0.0.1,10.0.0.2,22,TCP,connect,ok,128,root
+1725499250,10.0.0.1,10.0.0.2,22,TCP,auth,fail,64,root

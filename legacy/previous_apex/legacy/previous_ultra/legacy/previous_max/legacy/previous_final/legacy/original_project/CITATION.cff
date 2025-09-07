@@ -1,0 +1,18 @@
+
+cff-version: 1.2.0
+message: If you use this software, please cite it.
+authors:
+  - family-names: Doe
+    given-names: Jane
+title: NeonSecure Network System
+version: 1.0.0
+date-released: 2025-09-05
+doi: 10.0000/example.doi
+preferred-citation:
+  type: software
+  authors:
+    - family-names: Doe
+      given-names: Jane
+  title: NeonSecure Network System
+  year: 2025
+  notes: Open-source C++ streaming analysis toolkit.

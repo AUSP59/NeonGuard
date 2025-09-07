@@ -1,0 +1,69 @@
+{
+  "rules": [
+    {
+      "name": "suspicious-portscan-heavy",
+      "when": [
+        {
+          "field": "action",
+          "op": "eq",
+          "value": "connect"
+        }
+      ],
+      "group_by": "src_ip",
+      "within_sec": 60,
+      "count": {
+        "op": ">=",
+        "value": 50
+      },
+      "emit": {
+        "type": "custom_portscan",
+        "details": ">=50 connects/min"
+      }
+    },
+    {
+      "name": "auth-bruteforce-user",
+      "when": [
+        {
+          "field": "action",
+          "op": "eq",
+          "value": "auth"
+        },
+        {
+          "field": "status",
+          "op": "eq",
+          "value": "fail"
+        }
+      ],
+      "group_by": "username",
+      "within_sec": 120,
+      "count": {
+        "op": ">=",
+        "value": 10
+      },
+      "emit": {
+        "type": "bruteforce_user",
+        "details": ">=10 failed auth in 2m"
+      }
+    },
+    {
+      "name": "exfil-bytes-src",
+      "when": [
+        {
+          "field": "action",
+          "op": "eq",
+          "value": "transfer"
+        }
+      ],
+      "group_by": "src_ip",
+      "within_sec": 300,
+      "sum_bytes": {
+        "op": ">=",
+        "value": 100000000
+      },
+      "emit": {
+        "type": "exfil_suspect",
+        "details": ">=100MB in 5m"
+      }
+    }
+  ]
+}

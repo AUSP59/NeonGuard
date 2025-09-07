@@ -1,0 +1,8 @@
+
+.TH NEONSEC-RULES 5 "2025-09-05" "neonsec" "File Formats"
+.SH NAME
+neonsec-rules \- JSON rule specification for neonsec
+.SH DESCRIPTION
+Rules are provided as a JSON document with a top-level array key `rules`. Each rule contains:
+`name`, `when` (array of predicates with `field`, `op`, `value`), `group_by`, `within_sec`,
+a count or sum condition, and an `emit` object (`type`, `details`). See `schemas/rules.schema.json`.

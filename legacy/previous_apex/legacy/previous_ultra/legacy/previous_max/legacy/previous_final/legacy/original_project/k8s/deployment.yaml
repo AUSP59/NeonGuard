@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: neonsec
+spec:
+  replicas: 1
+  selector: { matchLabels: { app: neonsec } }
+  template:
+    metadata: { labels: { app: neonsec } }
+    spec:
+      containers:
+        - name: neonsec
+          image: ghcr.io/example/neonsec:latest
+          args: ["analyze","--input","/data/input.csv","--format","json","--metrics",":9464"]
+          ports:
+            - containerPort: 9464
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          emptyDir: {}

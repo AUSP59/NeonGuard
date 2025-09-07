@@ -1,0 +1,8 @@
+
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: neonsec
+Source: https://example.com/neonsec
+
+Files: *
+Copyright: NeonSec Contributors
+License: Apache-2.0

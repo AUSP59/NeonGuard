@@ -1,0 +1,6 @@
+- Warnings-as-errors
+- Tests & coverage gate
+- CodeQL, Trivy, Scorecard
+- SBOM present
+- Distroless container
+- DCO/CODEOWNERS

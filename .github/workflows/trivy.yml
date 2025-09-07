@@ -1,0 +1,19 @@
+
+name: Trivy Scan
+on:
+  push:
+  pull_request:
+jobs:
+  trivy:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Trivy filesystem scan
+        uses: aquasecurity/trivy-action@0.20.0
+        with:
+          scan-type: 'fs'
+          ignore-unfixed: true
+          format: 'table'
+          exit-code: '0'
+          vuln-type: 'os,library'

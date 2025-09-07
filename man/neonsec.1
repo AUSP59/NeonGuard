@@ -1,0 +1,17 @@
+
+.TH NEONSEC 1 "2025-09-05" "NeonSec 5.0.0" "User Commands"
+.SH NAME
+neonsec \- network log analyzer with metrics and plugins
+.SH SYNOPSIS
+.B neonsec
+analyze --input FILE|\- --format csv|ndjson [options]
+.br
+.B neonsec
+bench --input FILE --format csv|ndjson [--iterations N]
+.br
+.B neonsec
+selfcheck
+.SH OPTIONS
+--window SEC, --rules FILE, --metrics HOST:PORT, --outfmt text|json,
+--out-file PATH, --summary, --fail-on TYPE=N, --threads N,
+--plugin PATH, --tls-cert FILE, --tls-key FILE.

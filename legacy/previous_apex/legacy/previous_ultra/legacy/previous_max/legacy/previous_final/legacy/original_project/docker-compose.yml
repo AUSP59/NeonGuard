@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  neonsec:
+    build: .
+    command: ["analyze","--input","/data/input.csv","--format","json","--metrics",":9464"]
+    ports:
+      - "9464:9464"
+    user: "65532:65532"
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+      - seccomp:./docker/seccomp.json
+    volumes:
+      - ./examples:/data:ro

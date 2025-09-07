@@ -1,0 +1,3 @@
+- Cross-compiler issues; CI matrix.
+- Large inputs; bounded queue.
+- Supply chain; distroless, Dependabot, SBOM, scans.

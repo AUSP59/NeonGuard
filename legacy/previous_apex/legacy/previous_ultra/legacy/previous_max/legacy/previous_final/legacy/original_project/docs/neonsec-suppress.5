@@ -1,0 +1,11 @@
+
+.TH NEONSEC-SUPPRESS 5 "2025-09-05" "neonsec" "File Formats"
+.SH NAME
+neonsec-suppress \- Pattern file for suppressing findings
+.SH DESCRIPTION
+Each non-empty, non-comment line contains `type:key` with glob wildcards `*` and `?`.
+`type` or `key` may be `*` to match any. Examples:
+  portscan:*
+  *:10.0.*
+  dns_*:*.corp.local
+Use with \fB--suppress-file FILE\fR or inline via \fB--suppress 'type:key'\fR.

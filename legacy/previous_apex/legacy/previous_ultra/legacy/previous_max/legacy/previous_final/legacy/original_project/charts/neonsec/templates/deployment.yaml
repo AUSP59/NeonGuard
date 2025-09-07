@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "neonsec.fullname" . }}
+spec:
+  replicas: 1
+  selector: { matchLabels: { app: {{ include "neonsec.name" . }} } }
+  template:
+    metadata: { labels: { app: {{ include "neonsec.name" . }} } }
+    spec:
+      containers:
+        - name: neonsec
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          args: {{ toJson .Values.args }}
+          ports: [ { containerPort: {{ .Values.service.port }} } ]

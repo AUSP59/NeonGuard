@@ -1,0 +1,7 @@
+
+services:
+  neonsec:
+    build: .
+    volumes:
+      - ./logs:/logs
+    command: ["analyze","--input","-","--window","60"]

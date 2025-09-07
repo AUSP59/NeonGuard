@@ -1,0 +1,7 @@
+#compdef neonsec
+_arguments '1: :((analyze validate doctor))'   '*::options:->opts'
+case $state in
+  opts)
+    _values 'flags' --schema --schema-enforce --limit-key-rate --limit-key-window --json-indent --profile-json --bloom-bits --bloom-hash-count --bloom-key --bloom-state --explain-transform --input-digest-out --shard-count --shard-index --shard-by --details-max --no-ellipsis --pii-preset --tee-rotate-interval --hmac-secret --hmac-env --out --atomic-out --limit-findings --ts-offset --anomaly-zscore --anomaly-window --anomaly-output --record-id --record-id-start --max-output-bytes --utf8-strict --errors-json --chain --newline --tee-mode --ip-mask --report-md --group-output --group-by --sample-rate --sample-seed --split-output --split-by --split-bucket --max-errors --redact-patterns --redact-repl --validate-input --strict --report-html --artifact-dir --pidfile --dedupe-window --min-key-count --bucket-summary --bucket-size --csv-header --index-output --audit-suppressions --flush --since --until --only-type --skip-type --only-key --skip-key --only-details --skip-details --run-id --prolog --tee-rotate-size --tee-rotate-keep --dry-run --ts-format --tee --pseudonymize --pseudonymize-salt --summary --redact --max-findings --input --input-format --format --output --window --portscan --bruteforce --ddos-events --ddos-uniq --anomaly-z --plugin --metrics --sarif --rules --threads --sample --config --pcap --pcap-live
+  ;;
+esac

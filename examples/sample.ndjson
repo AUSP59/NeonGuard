@@ -1,0 +1,2 @@
+{"ts":1725499200,"src_ip":"1.1.1.1","dst_ip":"2.2.2.2","src_port":1000,"dst_port":80,"action":"connect","status":"ok","bytes":10,"username":"-"}
+{"ts":1725499201,"src_ip":"1.1.1.1,"dst_ip":"2.2.2.2","src_port":1000,"dst_port":81,"action":"connect","status":"ok","bytes":10,"username":"-"}

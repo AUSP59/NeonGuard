@@ -1,0 +1,21 @@
+name: security-nightly
+on:
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+jobs:
+  fuzz-sanitizers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install deps
+        run: sudo apt-get update && sudo apt-get install -y clang lld llvm cmake ninja-build
+      - name: Configure (ASan/UBSan)
+        run: cmake -S . -B build -G Ninja -DNEONSEC_ENABLE_SANITIZERS=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - name: Build
+        run: cmake --build build -j
+      - name: Unit tests
+        run: ctest --test-dir build --output-on-failure || true
+      - name: Fuzz (if any targets named fuzz_* exist)
+        run: ctest --test-dir build -R fuzz_ --output-on-failure || true

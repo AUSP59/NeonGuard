@@ -1,0 +1,3 @@
+- Add NDJSON input
+- Prometheus metrics endpoint
+- PCAP plugin option

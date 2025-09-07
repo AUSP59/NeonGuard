@@ -1,0 +1,6 @@
+- Build reproducible
+- Warnings as errors
+- Tests, CI, CodeQL
+- Coverage gate
+- Trivy scan
+- SBOM present

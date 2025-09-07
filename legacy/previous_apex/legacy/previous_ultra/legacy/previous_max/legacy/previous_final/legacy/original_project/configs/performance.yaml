@@ -1,0 +1,6 @@
+# Example performance-oriented configuration
+threads: auto
+format: ndjson
+summary: true
+stats: true
+color: false

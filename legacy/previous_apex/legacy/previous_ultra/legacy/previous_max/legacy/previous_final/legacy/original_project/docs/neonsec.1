@@ -1,0 +1,241 @@
+.TH NEONSEC 1 "2025-09-05" "neonsec 1.3.0" "User Commands"
+.SH NAME
+neonsec \- streaming security analytics CLI
+.SH SYNOPSIS
+.B neonsec analyze
+[\-\-input FILE|\-] [\-\-input\-format csv|ndjson] [\-\-format text|json|ndjson] [\-\-output FILE]
+[\-\-window SEC] [\-\-portscan N] [\-\-bruteforce N] [\-\-ddos\-events N] [\-\-ddos\-uniq N] [\-\-anomaly\-z Z]
+[\-\-plugin PATH]... [\-\-metrics HOST:PORT|\:PORT] [\-\-sarif FILE] [\-\-rules FILE] [\-\-threads N] [\-\-sample 1/N] [\-\-config FILE]
+[\-\-pcap FILE | \-\-pcap\-live IFACE]
+.PP
+.B neonsec validate
+[\-\-config FILE] [\-\-rules FILE] [\-\-input FILE] [\-\-input\-format csv|ndjson]
+.SH DESCRIPTION
+neonsec processes CSV/NDJSON logs to detect scans, brute force, volumetric spikes and anomalies; outputs text/JSON/NDJSON/SARIF; exposes Prometheus metrics.
+
+.SH OPTIONS (ADDITIONAL)
+\fB--redact\fR  Mask PII in output (IPs and usernames)
+\fB--max-findings N\fR  Print at most N findings (exit still 3 with --fail-on-findings)
+.SH OPTIONS (PRIVACY)
+\fB--pseudonymize\fR  Replace PII with stable tokens derived from optional \fB--pseudonymize-salt\fR.
+\fB--redact\fR  Mask PII without correlation.
+\fB--summary\fR  Print per-type counts at end (stderr).
+.SH OUTPUT
+New formats and flags:
+\fB--format yaml\fR  YAML per finding
+\fB--ts-format iso|epoch\fR  Affects text/yaml timestamps (JSON stays numeric epoch)
+\fB--tee FILE\fR  Duplicate output to FILE in addition to stdout
+
+.SH SUBCOMMANDS
+.B neonsec doctor
+Performs a local environment sanity check (samples, manpage, schemas, tooling).
+
+.SH OPTIONS (MISC)
+\fB--dry-run\fR  Parse inputs and report summary/stats without emitting findings.
+
+.SH OPTIONS (SCALING)
+\fB--max-records N\fR  Stop after processing N records.
+\fB--dedupe\fR  Suppress duplicate findings (type+key) within a single run.
+
+.SH FORMATS
+Additional formats:
+\fB--format stix\fR  Emit a STIX 2.1-like bundle of observed-data objects (offline generation).
+\fB--format html\fR  Emit a single HTML report with a table of findings.
+
+.SH LIMITS
+\fB--rlimit-mem MB\fR  Set address-space limit (POSIX).
+\fB--rlimit-cpu SEC\fR  Set CPU time limit (POSIX).
+
+.SH SUBCOMMANDS (ADDED)
+.B neonsec generate
+Emit synthetic records to stdout.
+
+.SH RUN METADATA
+\fB--run-id STR\fR  Set a run identifier (also read from NEONSEC_RUN_ID).
+\fB--prolog\fR  Emit a first JSON line with run metadata (run_id, ts, format).
+
+.SH OUTPUT ROTATION
+\fB--tee-rotate-size MB\fR  Rotate the tee file after MB megabytes.
+\fB--tee-rotate-keep N\fR  Keep N rotated files.
+
+.SH SANITIZATION
+Bidirectional control characters are stripped from keys/details to prevent visual spoofing.
+
+.SH DIFFERENTIAL REPORTING
+\fB--baseline FILE\fR  Suppress findings whose `(type,key)` appear in FILE (supports NDJSON produced by neonsec or CSV `ts,type,key,details`).
+\fB--suppress-file FILE\fR  File with one pattern per line `type:key` supporting `*` and `?` wildcards (`*:*` matches all).
+\fB--suppress PATTERN\fR  Add a single inline suppression pattern.
+
+.SH OUTPUT SANITIZATION
+\fB--ascii-only\fR  Replace non-ASCII characters in `key/details` with spaces (in addition to control-char filtering).
+BiDi control characters are always stripped to prevent visual spoofing.
+
+.SH EPILOGUE
+\fB--epilogue\fR  Emit a final JSON line with `{run_id,total,sha256}` — a digest of all emitted lines for tamper-evidence.
+
+.SH TIME WINDOW
+\fB--since EPOCH\fR  Process only findings with ts >= EPOCH.
+\fB--until EPOCH\fR  Process only findings with ts <= EPOCH.
+
+.SH SELECTORS
+\fB--only-type GLOB\fR, \fB--skip-type GLOB\fR  Filter by finding type (repeatable, `*` and `?` supported).
+\fB--only-key GLOB\fR, \fB--skip-key GLOB\fR  Filter by key.
+\fB--only-details GLOB\fR, \fB--skip-details GLOB\fR  Filter by details substring/glob.
+
+.SH CSV HEADER
+\fB--csv-header\fR  Emit a header line `ts,type,key,details` before findings.
+
+.SH INDEX
+\fB--index-output FILE\fR  Write byte offsets (one per finding) relative to the start of the output stream.
+
+.SH SUPPRESSION AUDIT
+\fB--audit-suppressions FILE\fR  Write a JSON summary with counts of suppressed findings (baseline vs. each pattern).
+
+.SH FLUSHING
+\fB--flush\fR  Flush stdout and tee after each emitted record (useful when piping to slow consumers).
+
+.SH RATE LIMIT
+\fB--rate-limit RPS\fR  Limit emission to RPS records/second (applies to stdout and tee).
+
+.SH TEXT TEMPLATE
+\fB--text-template STR\fR  Custom template for text output. Placeholders: `{ts}`, `{type}`, `{key}`, `{details}`. Appends `\n` automatically.
+
+.SH SUMMARY JSON
+\fB--summary-json FILE\fR  Write a JSON summary (`processed`, `findings`, per-type counts, and optionally `top` keys if `--summary-top` is used).
+
+.SH DEDUPLICATION WINDOW
+\fB--dedupe-window SEC\fR  Suppress repeated (type,key) emitted within SEC seconds.
+
+.SH MINIMUM KEY COUNT
+\fB--min-key-count N\fR  Emit only (type,key) groups with at least N occurrences in the run. Implies \fB--stable-order\fR.
+
+.SH BUCKET SUMMARY
+\fB--bucket-summary FILE\fR  Write a JSON histogram of counts by time bucket (and per type).
+\fB--bucket-size SEC\fR  Bucket size in seconds (required with --bucket-summary).
+
+.SH INPUT VALIDATION & REDACTION
+\fB--validate-input\fR  Validate each record minimally (`ts` non-negative; `type`/`key` non-empty). Tally invalids; with \fB--strict\fR aborts on first invalid.
+\fB--redact-patterns FILE\fR  ECMAScript regexes (one per line) applied to `key` and `details` (after BiDi/ascii sanitization).
+\fB--redact-repl STR\fR  Replacement string for redactions (default `***`).
+
+.SH REPORTING
+\fB--report-html FILE\fR  Write a standalone HTML report (summary and Top-N per type if `--summary-top` is set).
+\fB--artifact-dir DIR\fR  Create a directory with a `manifest.json` and copies of `--summary-json` / `--bucket-summary` if present.
+
+.SH PIDFILE
+\fB--pidfile FILE\fR  Write the current process id to FILE and remove it on clean exit.
+
+.SH SAMPLING
+\fB--sample-rate P\fR  Keep only a fraction P (0..1) of findings, chosen by a PRNG seeded with \fB--sample-seed\fR.
+\fB--sample-seed S\fR  Seed for the sampling PRNG to make runs reproducible.
+
+.SH SPLIT OUTPUT
+\fB--split-output DIR\fR  Also write emitted findings into partitioned files under DIR.
+\fB--split-by type|key|ts\fR  Partition key. For `ts`, combine with \fB--split-bucket SEC\fR.
+
+.SH ERROR BUDGET
+\fB--max-errors N\fR  With \fB--validate-input\fR, abort after N invalid records (N<0 disables the limit).
+
+.SH SELFTEST
+\fBneonsec selftest\fR  Run a quick in-binary self-check for sanitization and redaction.
+
+.SH TAMPER-EVIDENT CHAIN
+\fB--chain\fR  Append a per-record SHA-256 chain digest that links each record to the previous one (also reflected in JSON/CSV).
+
+.SH NEWLINES & TEE MODE
+\fB--newline lf|crlf\fR  Normalize output newlines (default lf).
+\fB--tee-mode append|truncate\fR  Open the tee file in append (default) or truncate mode.
+
+.SH IP MASKING
+\fB--ip-mask N\fR  IPv4 masking: zero host bits for /N (supports 8,16,24). Applied to `key` and `details` after redaction/sanitization.
+
+.SH MARKDOWN REPORT
+\fB--report-md FILE\fR  Write a Markdown summary (counts by type, optional Top-N).
+
+.SH GROUPED COUNTS
+\fB--group-output FILE\fR  Write grouped counts as JSON.
+\fB--group-by type|key\fR  Select the grouping dimension.
+
+.SH RECORD IDENTIFIER & BYTE BUDGET
+\fB--record-id\fR  Include a monotonically increasing record id in outputs (JSON field, CSV column, or text suffix).
+\fB--record-id-start N\fR  Starting value (default 1).
+\fB--max-output-bytes N\fR  Stop emitting once N bytes have been written (stdout + tee accounted).
+
+.SH UTF-8 STRICT
+\fB--utf8-strict\fR  Replace any invalid UTF-8 byte sequences in `key` and `details` with `?` after sanitization/redaction.
+
+.SH ERROR METRICS
+\fB--errors-json FILE\fR  Write a JSON with `invalid` and drop counters (`sample`, `selector`, `dedupe`, `mincount`) and `truncated` flag.
+
+.SH HMAC SIGNING
+\fB--hmac-secret STR\fR  Append an HMAC-SHA256 of each emitted record (JSON `hmac`, CSV column, or text suffix).
+
+\fB--hmac-env VAR\fR  Read the secret from environment variable VAR.
+
+.SH OUTPUT FILE
+\fB--out FILE\fR  Write primary output to FILE instead of stdout.
+
+\fB--atomic-out\fR  Write to `FILE.tmp` and atomically rename to `FILE` on success.
+
+.SH LIMIT FINDINGS
+\fB--limit-findings N\fR  Stop after emitting N findings (useful for samples and smoke tests).
+
+.SH TIMESTAMP OFFSET
+\fB--ts-offset SEC\fR  Shift timestamps by SEC in output and buckets.
+
+.SH ANOMALY DETECTION
+\fB--anomaly-zscore T\fR  Threshold for z-score.
+
+\fB--anomaly-window SEC\fR  Sliding window width in seconds across bucketed counts.
+
+\fB--anomaly-output FILE\fR  Write anomalies as a JSON array.
+
+.SH PII PRESETS
+\fB--pii-preset basic|strict\fR  Enable built-in PII redaction patterns (emails, phones, IPv6, MAC; \fIstrict\fR also masks SSN/IBAN-like); credit cards validated by Luhn are redacted.
+
+.SH TEE ROTATION (TIME-BASED)
+\fB--tee-rotate-interval SEC\fR  Rotate the \fB--tee\fR file every SEC seconds (in addition to size-based rotation).
+
+.SH SHARDING
+\fB--shard-count N\fR  Number of shards; when >0, only the selected shard is emitted.
+\fB--shard-index I\fR  Zero-based shard index for this process.
+\fB--shard-by key|type|id\fR  Choose the sharding key (default: key).
+
+.SH DETAILS TRUNCATION
+\fB--details-max N\fR  Truncate `details` to at most N bytes (UTF-8 safe best-effort) and optionally add an ellipsis.
+\fB--no-ellipsis\fR  Disable ellipsis when truncating.
+
+.SH SUBCOMMANDS
+\fBneonsec digest --input FILE\fR  Print SHA-256 of FILE.
+
+\fBneonsec verify-out --input FILE --format csv|ndjson|json|text [--hmac-secret S]\fR  Verify HMAC per-record (chain is ignored for portability).
+
+.SH BLOOM FILTER DEDUP
+\fB--bloom-bits N\fR  Bit size of the Bloom filter (e.g., 8e7 for ~10MB).
+\fB--bloom-hash-count K\fR  Number of hash rounds (default 2).
+\fB--bloom-key key|type|type+key|record\fR  Key used for membership.
+\fB--bloom-state FILE\fR  Persist/load Bloom bitset to/from FILE (binary).
+
+.SH TRANSFORM EXPLAINABILITY
+\fB--explain-transform\fR  Add an `explain` field/column/suffix enumerating the transformations applied to each record.
+
+.SH INPUT DIGEST
+\fB--input-digest-out FILE\fR  Write the SHA-256 of the input file used in this run.
+
+.SH SIGNALS
+Graceful termination on SIGINT/SIGTERM to finalize state and artifacts.
+
+.SH SCHEMA ENFORCEMENT
+\fB--schema FILE\fR  Load a simple key=value schema file (lines: `type.pattern=...`, `type.deny=...`, `key.pattern=...`, `key.deny=...`, `details.maxlen=N`).
+\fB--schema-enforce warn|strict\fR  On violation, either warn/track (warn) or drop (strict).
+
+.SH PER-KEY RATE LIMIT
+\fB--limit-key-rate N\fR  Maximum N records per key within the window.
+
+\fB--limit-key-window SEC\fR  Sliding window size in seconds for per-key limiting.
+
+.SH JSON PRETTY PRINT
+\fB--json-indent N\fR  Pretty-print JSON output with N-space indentation (only for `--format json`).
+
+.SH PROFILING
+\fB--profile-json FILE\fR  Write run-level profiling JSON (`wall_ms`, `processed`, `emitted`, `invalid`, and `dropped.*` counters).

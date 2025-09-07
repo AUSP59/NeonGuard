@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.23)
+project(neonsec_example_port_threshold LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 20)
+add_library(example_port_threshold SHARED plugin.cpp)
+target_include_directories(example_port_threshold PRIVATE ${CMAKE_CURRENT_LIST_DIR}/../../include)
+set_target_properties(example_port_threshold PROPERTIES OUTPUT_NAME example_port_threshold)

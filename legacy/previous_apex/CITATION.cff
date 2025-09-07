@@ -1,0 +1,10 @@
+
+cff-version: 1.2.0
+message: If you use this software, please cite it as below.
+title: NeonSec OSS
+version: 4.0.0
+date-released: 2025-09-06
+authors:
+  - family-names: NeonSec
+    given-names: Contributors
+license: Apache-2.0

@@ -1,0 +1,1 @@
+- Sign releases (cosign); - OTEL exporters optional; - Package managers.

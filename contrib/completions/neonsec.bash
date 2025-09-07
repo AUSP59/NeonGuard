@@ -1,0 +1,1 @@
+_neonsec(){ COMPREPLY=( $(compgen -W "analyze bench selfcheck version --input --format --window --rules --metrics --tls-cert --tls-key --plugin --threads --outfmt --out-file --summary --fail-on --help" -- ${COMP_WORDS[COMP_CWORD]}) ); }; complete -F _neonsec neonsec;

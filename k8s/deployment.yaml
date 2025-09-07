@@ -1,0 +1,23 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: neonsec
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: neonsec }
+  template:
+    metadata:
+      labels: { app: neonsec }
+    spec:
+      containers:
+        - name: neonsec
+          image: ghcr.io/your/repo:latest
+          args: ["analyze","--input","/examples/sample.csv","--format","csv","--metrics","0.0.0.0:9100","--outfmt","json"]
+          ports:
+            - containerPort: 9100
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true

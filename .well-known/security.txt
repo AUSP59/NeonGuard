@@ -1,0 +1,2 @@
+Contact: mailto:security@neonsec.dev
+Preferred-Languages: en

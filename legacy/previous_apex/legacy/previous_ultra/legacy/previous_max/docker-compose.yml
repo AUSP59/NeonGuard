@@ -1,0 +1,10 @@
+
+services:
+  neonsec:
+    build: .
+    ports:
+      - "9100:9100"
+    volumes:
+      - ./logs:/logs
+      - ./examples:/examples
+    command: ["analyze","--input","/examples/sample.csv","--format","csv","--window","60","--metrics",":9100"]

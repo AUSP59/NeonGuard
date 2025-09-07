@@ -1,0 +1,57 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "panels": [
+    {
+      "type": "table",
+      "title": "Top Sources (Last 1h)",
+      "targets": [
+        {
+          "expr": "topk(10, sum by (src_ip) (increase(neonsec_events_total[1h])))"
+        }
+      ],
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "type": "table",
+      "title": "Top Destinations (Last 1h)",
+      "targets": [
+        {
+          "expr": "topk(10, sum by (dst_ip) (increase(neonsec_events_total[1h])))"
+        }
+      ],
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      }
+    },
+    {
+      "type": "graph",
+      "title": "Brute-force Alerts",
+      "targets": [
+        {
+          "expr": "sum(increase(neonsec_bruteforce_alerts_total[15m]))"
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 10
+      }
+    }
+  ],
+  "schemaVersion": 39,
+  "title": "NeonSec - Incidents",
+  "version": 1,
+  "timezone": "browser"
+}

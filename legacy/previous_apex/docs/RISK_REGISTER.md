@@ -1,0 +1,3 @@
+- Cross-compiler build issues; mitigate with CI matrix.
+- Large inputs; mitigate with bounded queue.
+- Supply chain; mitigate with distroless, Dependabot, SBOM, scans.

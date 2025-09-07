@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>neonsec</id>
+    <version>1.0.0</version>
+    <title>Neon Secure Network System</title>
+    <authors>NeonSec Maintainers</authors>
+    <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Neon Secure Network System CLI</description>
+    <tags>security network cli</tags>
+  </metadata>
+</package>

@@ -1,0 +1,2 @@
+{"ts":1690000000,"type":"login_fail","key":"10.0.0.1","details":"user=u42"}
+{"ts":1690000001,"type":"portscan","key":"10.0.0.2","details":"user=u43"}

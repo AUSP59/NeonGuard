@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/neonsec/rules.schema.json",
+  "title": "neonsec rules",
+  "type": "object",
+  "properties": {
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name","when","group_by","within_sec","emit"],
+        "properties": {
+          "name": {"type":"string","minLength":1},
+          "when": {
+            "type":"array",
+            "items": {
+              "type":"object",
+              "required":["field","op","value"],
+              "properties": {
+                "field":{"type":"string"},
+                "op":{"type":"string","enum":["eq","ne",">=",">","<=","<","regex"]},
+                "value":{"type":"string"}
+              }
+            }
+          },
+          "group_by":{"type":"string"},
+          "within_sec":{"type":"integer","minimum":1},
+          "count":{"type":"object","properties":{"op":{"const":">="},"value":{"type":"integer","minimum":1}}, "required":["op","value"]},
+          "sum_bytes":{"type":"object","properties":{"op":{"const":">="},"value":{"type":"integer","minimum":1}}, "required":["op","value"]},
+          "emit":{"type":"object","required":["type","details"],"properties":{"type":{"type":"string"},"details":{"type":"string"}}}
+        }
+      }
+    }
+  },
+  "required": ["rules"]
+}

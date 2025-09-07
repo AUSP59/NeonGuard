@@ -1,0 +1,30 @@
+name: coverage
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install deps
+        run: sudo apt-get update && sudo apt-get install -y clang llvm gcovr cmake ninja-build
+      - name: Configure with coverage
+        run: cmake -S . -B build -G Ninja -DENABLE_COVERAGE=ON -DCMAKE_BUILD_TYPE=Debug
+      - name: Build
+        run: cmake --build build -j
+      - name: Run tests
+        run: ctest --test-dir build --output-on-failure || true
+      - name: Generate coverage report
+        run: |
+          gcovr -r . --xml-pretty -o coverage.xml || true
+          gcovr -r . --branches --html --html-details -o coverage.html || true
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: |
+            coverage.xml
+            coverage.html

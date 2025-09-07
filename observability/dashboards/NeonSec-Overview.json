@@ -1,0 +1,88 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "graphTooltip": 0,
+  "panels": [
+    {
+      "type": "stat",
+      "title": "Total Events",
+      "targets": [
+        {
+          "expr": "sum(neonsec_events_total)"
+        }
+      ],
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "type": "graph",
+      "title": "Events Rate",
+      "targets": [
+        {
+          "expr": "sum(rate(neonsec_events_total[5m]))"
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 6,
+        "y": 0
+      }
+    },
+    {
+      "type": "graph",
+      "title": "DDoS Alerts",
+      "targets": [
+        {
+          "expr": "sum(increase(neonsec_ddos_alerts_total[10m]))"
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      }
+    },
+    {
+      "type": "graph",
+      "title": "Portscan Alerts",
+      "targets": [
+        {
+          "expr": "sum(increase(neonsec_portscan_alerts_total[10m]))"
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      }
+    },
+    {
+      "type": "graph",
+      "title": "Pipeline Latency (ms)",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(neonsec_pipeline_latency_bucket[5m])) by (le))"
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 16
+      }
+    }
+  ],
+  "schemaVersion": 39,
+  "title": "NeonSec - Overview",
+  "version": 1,
+  "timezone": "browser"
+}

@@ -1,0 +1,5 @@
+{"ts":1725499200,"src_ip":"1.1.1.1","dst_ip":"2.2.2.2","src_port":1000,"dst_port":80,"action":"connect","status":"ok","bytes":10,"username":"-"}
+{"ts":1725499201,"src_ip":"1.1.1.1","dst_ip":"2.2.2.2","src_port":1000,"dst_port":81,"action":"connect","status":"ok","bytes":10,"username":"-"}
+{"ts":1725499202,"src_ip":"1.1.1.1","dst_ip":"2.2.2.2","src_port":1000,"dst_port":82,"action":"connect","status":"ok","bytes":10,"username":"-"}
+{"ts":1725499203,"src_ip":"3.3.3.3","dst_ip":"9.9.9.9","src_port":1000,"dst_port":80,"action":"connect","status":"ok","bytes":1,"username":"-"}
+{"ts":1725499204,"src_ip":"4.4.4.4","dst_ip":"9.9.9.9","src_port":1000,"dst_port":80,"action":"connect","status":"ok","bytes":1,"username":"-"}

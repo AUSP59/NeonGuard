@@ -1,0 +1,2 @@
+# Ethical Guidelines
+We commit to privacy by default, transparency, and user control. The system does not deanonymize or attempt to infer sensitive attributes. See THREAT_MODEL.md and SECURITY.md for controls.

@@ -1,0 +1,20 @@
+{
+  "input": "examples/sample_logs.csv",
+  "input_format": "csv",
+  "format": "json",
+  "output": "report.json",
+  "window": 60,
+  "thresholds": {
+    "portscan_unique_ports": 10,
+    "bruteforce_failures": 5,
+    "ddos_events": 500,
+    "ddos_unique_sources": 100,
+    "anomaly_z": 3.5
+  },
+  "plugins": [],
+  "metrics": ":9464",
+  "sarif": "findings.sarif",
+  "threads": 4,
+  "sample": 1,
+  "max_records_per_key": 5000
+}

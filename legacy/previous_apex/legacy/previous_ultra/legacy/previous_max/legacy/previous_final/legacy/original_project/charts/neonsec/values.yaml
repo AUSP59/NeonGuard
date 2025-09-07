@@ -1,0 +1,6 @@
+image:
+  repository: ghcr.io/example/neonsec
+  tag: latest
+args: ["analyze","--input","/data/input.csv","--format","json","--metrics",":9464"]
+service:
+  port: 9464

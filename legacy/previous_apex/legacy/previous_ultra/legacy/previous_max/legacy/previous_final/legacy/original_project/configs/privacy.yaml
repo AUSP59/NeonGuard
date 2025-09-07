@@ -1,0 +1,4 @@
+# Example privacy-first configuration
+redact: true
+pseudonymize: false
+format: ndjson

@@ -1,0 +1,19 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+  - repo: https://github.com/cpplint/cpplint
+    rev: v1.6.1
+    hooks:
+      - id: cpplint
+        args: ["--linelength=100"]
+
+- repo: local
+  hooks:
+    - id: check-spdx
+      name: check SPDX headers
+      entry: python3 tools/check_spdx.py
+      language: system
+      files: '.*'

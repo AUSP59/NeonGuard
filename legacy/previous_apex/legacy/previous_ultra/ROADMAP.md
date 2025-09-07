@@ -1,0 +1,3 @@
+- TLS via reverse-proxy or OpenSSL optional build
+- More detectors & rule engine
+- Packaging for OS distros

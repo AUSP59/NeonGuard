@@ -1,0 +1,6 @@
+apiVersion: v2
+name: neonsec
+description: Helm chart for Neon Secure Network System
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

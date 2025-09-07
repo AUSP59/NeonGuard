@@ -1,0 +1,8 @@
+# Minimal schema file (key=value)
+# Only allow types starting with "auth." or "net.", deny anything with "debug"
+type.pattern=^(auth|net)\.
+type.deny=debug
+# Keys must look like host/IP or user
+key.pattern=^[a-z0-9_.:-]+$
+# Limit details length
+details.maxlen=2048

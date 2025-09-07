@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "neonsec finding",
+  "type": "object",
+  "required": [
+    "ts",
+    "type",
+    "key",
+    "details"
+  ],
+  "properties": {
+    "ts": {
+      "type": [
+        "integer",
+        "string"
+      ]
+    },
+    "type": {
+      "type": "string"
+    },
+    "key": {
+      "type": "string"
+    },
+    "details": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}
