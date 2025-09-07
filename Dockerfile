@@ -1,5 +1,5 @@
 
-FROM alpine:3.20 AS build
+FROM alpine:3.22 AS build
 RUN apk add --no-cache build-base cmake openssl-dev
 WORKDIR /src
 COPY . .
