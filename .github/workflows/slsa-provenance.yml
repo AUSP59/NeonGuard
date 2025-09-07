@@ -20,7 +20,7 @@ jobs:
           cmake --build build -j
           tar czf neonsec-dist.tar.gz -C build .
       - name: Generate SLSA provenance
-        uses: slsa-framework/slsa-github-generator/actions/generator@v2.0.0
+        uses: slsa-framework/slsa-github-generator/actions/generator@v2.1.0
         with:
           artifact_path: neonsec-dist.tar.gz
           provenance_name: neonsec-dist.intoto.jsonl
